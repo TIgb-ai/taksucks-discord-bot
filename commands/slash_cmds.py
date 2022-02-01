@@ -4,7 +4,6 @@ from nextcord.ext import commands
 import random
 from nextcord.ui import Button, View
 
-test_guild = 893564988936040548 
 
 
 class Slash_Cmds(commands.Cog):
@@ -16,7 +15,7 @@ class Slash_Cmds(commands.Cog):
     @commands.Cog.listener()
     async def 
 
-    @nextcord.slash_command(name = 'ping',description = 'Sends all of the information about user',guild_ids=[test_guild])
+    @nextcord.slash_command(name = 'ping',description = 'Sends all of the information about user')
     async def ping_(self,interac : Interaction):
         responses = [f'**Pong!** ```{round(self.bot.latency * 1000)}ms```',f'**Pong!** ```{round(self.bot.latency * 1000)}ms```']
 
