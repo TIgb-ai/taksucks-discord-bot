@@ -7,7 +7,7 @@ from datetime import datetime
 from utils.suggest import votelol
 
 
-test_guild = 893564988936040548 
+
 suggestembedcolour = 0xEB3636
 
 
@@ -37,7 +37,7 @@ class Slash_Cmds(commands.Cog):
         
         
 
-    @nextcord.slash_command(name = 'ping',description = 'Sends all of the information about user',guild_ids=[test_guild])
+    @nextcord.slash_command(name = 'ping',description = 'Sends all of the information about user')
     async def ping_(self,interac : Interaction):
         responses = [f'**Pong!** ```{round(self.bot.latency * 1000)}ms```',f'**Pong!** ```{round(self.bot.latency * 1000)}ms```']
 
@@ -59,7 +59,7 @@ class Slash_Cmds(commands.Cog):
 
 
 
-    @nextcord.slash_command(name = 'suggest',description='Suggest some things to staff',guild_ids=[test_guild])
+    @nextcord.slash_command(name = 'suggest',description='Suggest some things to staff')
     async def suggest_a(self,interac : Interaction,suggestion):
         em= nextcord.Embed(title=f"Suggested by {interac.user}",description=f"`{suggestion}`",color=suggestembedcolour,timestamp= datetime.now())
         em.set_thumbnail(url=f"{interac.user.avatar}")
