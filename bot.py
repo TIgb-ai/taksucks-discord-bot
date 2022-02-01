@@ -18,7 +18,7 @@ from nextcord.ext import commands
 # Local code
 
 
-class Tutorial(commands.Cog):
+class taksucks(commands.Cog):
     
     def __init__(self, bot):
         self.bot = bot
@@ -84,5 +84,5 @@ if __name__ == '__main__':
         if filename.endswith('.py'):
             bot.load_extension(f'commands.{filename[: -3]}')
 
-    bot.add_cog(Tutorial(bot))
+    bot.add_cog(taksucks(bot))
     bot.run(token, reconnect=True)

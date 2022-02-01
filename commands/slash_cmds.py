@@ -3,6 +3,17 @@ from nextcord import *
 from nextcord.ext import commands
 import random
 from nextcord.ui import Button, View
+from datetime import datetime
+from utils.suggest import votelol
+
+
+test_guild = 893564988936040548 
+suggestembedcolour = 0xEB3636
+
+
+
+
+
 
 
 
@@ -11,11 +22,22 @@ class Slash_Cmds(commands.Cog):
 
     def __init__(self, bot):
         self.bot=bot
+        
+        
+        
+        
+        
 
     @commands.Cog.listener()
-    async def 
+    async def on_member_join(self,member):
+        general_welcome_channel = self.bot.get_channel(932208254333894686)
+        await general_welcome_channel.send(f"Guys {member.mention} Just Joined Server Welcome them!!! <:swaghaiapna:928908517023289424>")
+        
+        
+        
+        
 
-    @nextcord.slash_command(name = 'ping',description = 'Sends all of the information about user')
+    @nextcord.slash_command(name = 'ping',description = 'Sends all of the information about user',guild_ids=[test_guild])
     async def ping_(self,interac : Interaction):
         responses = [f'**Pong!** ```{round(self.bot.latency * 1000)}ms```',f'**Pong!** ```{round(self.bot.latency * 1000)}ms```']
 
@@ -37,6 +59,12 @@ class Slash_Cmds(commands.Cog):
 
 
 
+    @nextcord.slash_command(name = 'suggest',description='Suggest some things to staff',guild_ids=[test_guild])
+    async def suggest_a(self,interac : Interaction,suggestion):
+        em= nextcord.Embed(title=f"Suggested by {interac.user}",description=f"`{suggestion}`",color=suggestembedcolour,timestamp= datetime.now())
+        em.set_thumbnail(url=f"{interac.user.avatar}")
+        em.set_footer(text = f"id = {interac.user.id} ",icon_url="https://images-ext-2.discordapp.net/external/UkmH-vgKvt5rHVzldVKYdqUu9Pi1hIuoDdSwevaiD20/%3Fsize%3D2048/https/cdn.discordapp.com/avatars/932339746275991622/a84cb436ee2844fb879fc27e637a23a7.png")
+        await interac.response.send_message(embed=em,view=votelol())
 
 
 
