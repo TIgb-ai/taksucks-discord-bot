@@ -31,7 +31,9 @@ class Slash_Cmds(commands.Cog):
     @commands.Cog.listener()
     async def on_member_join(self,member):
         general_welcome_channel = self.bot.get_channel(906429210954964994)
-        await general_welcome_channel.send(f"Guys {member.mention} Just Joined Server Welcome them!!! <:swaghaiapna:928908517023289424>")
+        await general_welcome_channel.send(f"> Guys **{member.name}** Just Joined Server Welcome them!!! <:swaghaiapna:928908517023289424>")
+        await member.send(f"Have a great time here in **Taksucks** :smirky_nasar: !!")
+        print(f"{member.name} Just Joined the server yey!!")
         
         
         
@@ -63,7 +65,7 @@ class Slash_Cmds(commands.Cog):
     async def suggest_a(self,interac : Interaction,suggestion):
         em= nextcord.Embed(title=f"Suggested by {interac.user}",description=f"`{suggestion}`",color=suggestembedcolour,timestamp= datetime.now())
         em.set_thumbnail(url=f"{interac.user.avatar}")
-        em.set_footer(text = f"id = {interac.user.id} ",icon_url="https://images-ext-2.discordapp.net/external/UkmH-vgKvt5rHVzldVKYdqUu9Pi1hIuoDdSwevaiD20/%3Fsize%3D2048/https/cdn.discordapp.com/avatars/932339746275991622/a84cb436ee2844fb879fc27e637a23a7.png")
+        em.set_footer(text = f"id = {interac.user.id} ",icon_url="https://cdn.discordapp.com/avatars/938011170936332328/75cf5753a218804f9787f67a200d427a.png?size=1024")
         suggestions_channel = self.bot.get_channel(938147776628420689)
         await suggestions_channel.send(embed=em,view=votelol())
         await interac.response.send_message("Thank Your Your suggestion is successfully sent to <#938147776628420689>" ,ephemeral=True)
