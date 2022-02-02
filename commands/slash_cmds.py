@@ -9,8 +9,7 @@ from utils.suggest import votelol
 
 
 suggestembedcolour = 0xEB3636
-
-
+logs = 938058900773699644
 
 
 
@@ -31,10 +30,11 @@ class Slash_Cmds(commands.Cog):
     @commands.Cog.listener()
     async def on_member_join(self,member):
         general_welcome_channel = self.bot.get_channel(906429210954964994)
+        logs_channel = self.bot.get_channel(logs)
         await general_welcome_channel.send(f"> Guys **{member.name}** Just Joined Server Welcome them!!! <:swaghaiapna:928908517023289424>")
         await member.send(f"Have a great time here in **Taksucks** <:smirky_nasar:931047462293102712> !!")
         print(f"{member.name} Just Joined the server yey!!")
-        
+        await logs_channel.send(f"{member.mention} joined the Server Just Now")
         
         
         
