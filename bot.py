@@ -26,7 +26,7 @@ class taksucks(commands.Cog):
     # Greetings
     @commands.Cog.listener()
     async def on_ready(self):
-        await bot.change_presence(activity=nextcord.Activity(type=nextcord.ActivityType.watching, name='=help'))
+        await bot.change_presence(activity=nextcord.Activity(type=nextcord.ActivityType.watching, name='Dms for help :)'))
        
         print(f'Logged in as {self.bot.user} ({self.bot.user.id})')
         
@@ -59,7 +59,7 @@ intents.presences = True
 
 # Bot prefix
 
-bot = commands.Bot(command_prefix=commands.when_mentioned_or('='),
+bot = commands.Bot(command_prefix=commands.when_mentioned_or('t!'),
                    description='Taksucks Bot', intents=intents)
 
 
