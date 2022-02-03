@@ -8,6 +8,7 @@ import json
 import time
 
 
+test_guild = 893564988936040548 
 
 
 class Slash_Cmds_2(commands.Cog):
@@ -91,7 +92,7 @@ class Slash_Cmds_2(commands.Cog):
         
 
         
-    @nextcord.slash_command(name = 'afk',description='Set Your AFK to let others know when they ping you')
+    @nextcord.slash_command(name = 'afk',description='Set Your AFK to let others know when they ping you',guild_ids=[test_guild])
     async def afk_a(self,interac : Interaction,reason):
         with open('db/afk.json', 'r') as f:
             afk = json.load(f)

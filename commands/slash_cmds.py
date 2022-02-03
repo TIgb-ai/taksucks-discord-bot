@@ -7,9 +7,10 @@ from datetime import datetime
 from utils.suggest import votelol
 
 
-
+test_guild = 893564988936040548 
 suggestembedcolour = 0xEB3636
 logs = 938058900773699644
+
 
 
 
@@ -29,17 +30,16 @@ class Slash_Cmds(commands.Cog):
 
     @commands.Cog.listener()
     async def on_member_join(self,member):
-        general_welcome_channel = self.bot.get_channel(906429210954964994)
+        general_welcome_channel = self.bot.get_channel(932208254333894686)
         logs_channel = self.bot.get_channel(logs)
         await general_welcome_channel.send(f"> Guys **{member.name}** Just Joined Server Welcome them!!! <:swaghaiapna:928908517023289424>")
-        await member.send(f"Have a great time here in **Taksucks** <:smirky_nasar:931047462293102712> !!")
+        await member.send(f"Have a great time here in **Taksucks** :smirky_nasar: !!")
         print(f"{member.name} Just Joined the server yey!!")
         await logs_channel.send(f"{member.mention} joined the Server Just Now")
-        
-        
+
         
 
-    @nextcord.slash_command(name = 'ping',description = 'Sends all of the information about user')
+    @nextcord.slash_command(name = 'ping',description = 'Sends all of the information about user',guild_ids=[test_guild])
     async def ping_(self,interac : Interaction):
         responses = [f'**Pong!** ```{round(self.bot.latency * 1000)}ms```',f'**Pong!** ```{round(self.bot.latency * 1000)}ms```']
 
@@ -61,12 +61,12 @@ class Slash_Cmds(commands.Cog):
 
 
 
-    @nextcord.slash_command(name = 'suggest',description='Suggest some things to staff')
+    @nextcord.slash_command(name = 'suggest',description='Suggest some things to staff',guild_ids=[test_guild])
     async def suggest_a(self,interac : Interaction,suggestion):
         em= nextcord.Embed(title=f"Suggested by {interac.user}",description=f"`{suggestion}`",color=suggestembedcolour,timestamp= datetime.now())
         em.set_thumbnail(url=f"{interac.user.avatar}")
         em.set_footer(text = f"id = {interac.user.id} ",icon_url="https://cdn.discordapp.com/avatars/938011170936332328/75cf5753a218804f9787f67a200d427a.png?size=1024")
-        suggestions_channel = self.bot.get_channel(938147776628420689)
+        suggestions_channel = self.bot.get_channel(932208254333894686)
         await suggestions_channel.send(embed=em,view=votelol())
         await interac.response.send_message("Thank Your Your suggestion is successfully sent to <#938147776628420689>" ,ephemeral=True)
 
