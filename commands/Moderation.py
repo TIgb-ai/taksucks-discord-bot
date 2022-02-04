@@ -487,11 +487,11 @@ class Mod(commands.Cog):
         holder = ""
         sorted_users = collection.find().sort("reputation", pymongo.DESCENDING)
         
-        holder += f"🥇 **{sorted_users[0]['reputation']}** - {sorted_users[0]['name']}\n"
-        holder += f"🥈 **{sorted_users[1]['reputation']}** - {sorted_users[1]['name']}\n"
-        holder += f"🥉 **{sorted_users[2]['reputation']}** - {sorted_users[2]['name']}\n"
-        holder += f"🏅 **{sorted_users[3]['reputation']}** - {sorted_users[3]['name']}\n"
-        holder += f"🏅 **{sorted_users[4]['reputation']}** - {sorted_users[4]['name']}\n"
+        holder += f"🥇 **{sorted_users[0]['reputation']}** - <@{sorted_users[0]['name']}>\n"
+        holder += f"🥈 **{sorted_users[1]['reputation']}** - <@{sorted_users[1]['name']}>\n"
+        holder += f"🥉 **{sorted_users[2]['reputation']}** - <@{sorted_users[2]['name']}>\n"
+        holder += f"🏅 **{sorted_users[3]['reputation']}** - <@{sorted_users[3]['name']}>\n"
+        holder += f"🏅 **{sorted_users[4]['reputation']}** - <@{sorted_users[4]['name']}>\n"
 
         embed.add_field(name="Reputation Leaderboard", value=holder)
         await ctx.send(embed=embed)
