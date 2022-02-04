@@ -100,6 +100,7 @@ class ModMail(commands.Cog):
 
     @commands.command()
     @commands.guild_only()
+    @has_permissions(manage_messages=True)
     async def reply(self, ctx, id: int = 0, *, msg: str = "moderator is replying..."):
         await ctx.trigger_typing()
         message = msg
