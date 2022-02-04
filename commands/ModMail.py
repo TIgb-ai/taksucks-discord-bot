@@ -75,10 +75,10 @@ class ModMail(commands.Cog):
                     # send to server
                     embed_to = nextcord.Embed(
                         title='Mod Mail Received',
-                        description=f"sent by: {message.author} \nmessage: {message.content} \nuser id: {message.author.id}",
+                        description=f"Sent by: {message.author.mention}\nSender's by Name: **{message.author}** \n```message: {message.content} ```\nuser id: `{message.author.id}`",
                         color = nextcord.Color.blue(),
                     )
-                    embed_to.set_footer(text="use reply <id> <message>")
+                    embed_to.set_footer(text="use reply <user> <message>")
                     mails_channel = self.bot.get_channel(938804736902176818)
                     await mails_channel.send(embed=embed_to)
 
@@ -98,22 +98,23 @@ class ModMail(commands.Cog):
                     )
                     await message.author.send(embed=embed_reply)
 
+
     @commands.command()
     @commands.guild_only()
     @has_permissions(manage_messages=True)
-    async def reply(self, ctx, id: int = 0, *, msg: str = "moderator is replying..."):
+    async def reply(self, ctx, user: nextcord.Member = None, *, msg: str = "moderator is replying..."):
         await ctx.trigger_typing()
         message = msg
-        user = self.bot.get_user(id)
-        if user is not None:
+        userr = self.bot.get_user(user.id)
+        if userr is not None:
             # EMBED report result to user
             embed_reply = nextcord.Embed(
-                title='Reply from Moderator',
+                title=f'Reply from Moderator || {ctx.author.name}',
                 # title=f'Replied by {ctx.author.name}',
-                description=f"{message}",
+                description=f"```{message}```",
                 color = nextcord.Color.blue(),
             )
-            await user.send(embed=embed_reply)
+            await userr.send(embed=embed_reply)
 
             # EMBED show results to author
             embed_result= nextcord.Embed(
@@ -122,7 +123,7 @@ class ModMail(commands.Cog):
                 color = nextcord.Color.green(),
             )
             await ctx.send(embed=embed_result)
-        elif user is None:
+        elif userr is None:
             # EMBED show results to author
             embed_result = nextcord.Embed(
                 title='Failed to send message',
@@ -130,6 +131,7 @@ class ModMail(commands.Cog):
                 color = nextcord.Color.red(),
             )
             await ctx.send(embed=embed_result)
+
 
     @reply.error
     async def reply_error(self, ctx, error):
