@@ -1,5 +1,5 @@
 aiofiles==0.8.0
-aiohttp==3.6.3
+aiohttp==3.8.1
 appdirs==1.4.4
 asgiref==3.4.1
 astroid==2.5.6
