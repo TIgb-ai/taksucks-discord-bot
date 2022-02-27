@@ -15,22 +15,13 @@ mongo_url_lb = os.getenv('mongo_url')
 cluster = MongoClient(mongo_url_lb)
 repdb = cluster["ReputationData"]
 
-def rsetup(col):
-    col = str(col)
-    return repdb[col]
 
-def reputation(userid, collection):
-    query = {"_id": userid}
-    users = collection.find(query)
-    return users[0]["reputation"]
 
 def getEmbed(Title, msg):
     embed = nextcord.Embed(title=Title, description=msg, color=nextcord.Color.dark_theme())
     return embed
 
-def does_not_exist(userid, collection):
-    check_query = { "_id": userid }
-    return collection.count_documents(check_query) == 0
+
 
 
 class Mod(commands.Cog):
@@ -319,182 +310,7 @@ class Mod(commands.Cog):
     async def activity(self, ctx, _activity="beanson"):
         await self.bot.change_presence(activity=nextcord.Game(name=_activity))
         
-    @commands.command(name="rep", aliases=['reputation'])
-    @has_permissions(manage_messages=True)
-    async def rep(self, ctx, userr: nextcord.Member = None, score: int = None):
-        """check/give reputation"""
-        await ctx.trigger_typing()
-        if not userr:
-            userr = ctx.author
 
-        collection = rsetup(ctx.guild.id)
-        user = userr.id
-        username = str(userr)
-        score = score
-
-        # data doesn't exist
-        if (does_not_exist(userr.id, collection)):
-            if not score:
-                post = {
-                    '_id': user,
-                    'name': username,
-                    'reputation': 10
-                }
-                collection.insert_one(post)
-                try:
-                    current_reputation = reputation(user, collection)
-                except:
-                    return
-                message = f"{userr.name} has {current_reputation} reputation in this server."
-                embed = getEmbed("Reputation", message)
-                await ctx.send(embed=embed)
-            else:
-                post = {
-                    '_id': user,
-                    'name': username,
-                    'reputation': score
-                }
-                collection.insert_one(post)
-
-                try:
-                    current_reputation = reputation(user, collection)
-                except:
-                    return
-                message = f"{userr.name} has currently {current_reputation} reputation."
-                embed = getEmbed("Reputation", message)
-                await ctx.send(embed=embed)
-        # data do exist
-        else:
-            if not score:
-                try:
-                    current_reputation = reputation(user, collection)
-                except:
-                    return
-                message = f"{userr.name} has {current_reputation} reputation in this server."
-                embed = getEmbed("Reputation", message)
-                await ctx.send(embed=embed)
-            else:
-                try:
-                    current_reputation = reputation(user, collection)
-                except:
-                    return
-                current_reputation += score
-                collection.update_one({"_id":user}, {"$set":{"name": username,"reputation": current_reputation}})
-
-                try:
-                    current_reputation = reputation(user, collection)
-                except:
-                    return
-                message = f"{userr.name} now has {current_reputation} reputation."
-                embed = getEmbed("Reputation", message)
-                await ctx.send(embed=embed)
-        await self.log(
-            ctx,
-            f"{user.name}'s reputation data has been updated by {ctx.author.name}.",
-            '**Reputation**',
-            showauth=True
-        )
-
-    @commands.command(name="reset", aliases=['r', 'Reset'])
-    @has_permissions(manage_messages=True)
-    async def reset(self, ctx, userr: nextcord.Member):
-        user = userr.id
-        collection = rsetup(ctx.guild.id)
-        current_reputation = 10
-        collection.update_one({"_id":user}, {"$set":{"reputation": current_reputation}})
-        message = f"{user.name}'s reputation data has been cleaned."
-        embed = getEmbed("User Data Reset", message)
-        await ctx.send(embed=embed)
-        await ctx.message.add_reaction("✅")
-        await self.log(
-            ctx,
-            f"{user.name}'s reputation data has been cleaned by {ctx.author.name}.",
-            '**User Data Reset**',
-            showauth=True
-        )
-
-    @commands.command(name="thanks", aliases=['thx', 'thnx'])
-    @commands.guild_only()
-    @commands.cooldown(rate=1, per=600, type=BucketType.user)
-    async def Thanks(self, ctx, user: nextcord.Member):
-        if ctx.author.id == user.id:
-            return
-        collection = rsetup(ctx.guild.id)
-        user = user.id
-        username = str(user)
-        check_query = { "_id": user }
-
-
-        if (collection.count_documents(check_query) == 0):
-            post = {
-                '_id': user,
-                'name': username,
-                'reputation': 11
-            }
-            collection.insert_one(post)
-        else:
-            try:
-                current_reputation = reputation(user, collection)
-            except:
-                return
-            current_reputation += 1
-            collection.update_one({"_id":user}, {"$set":{"name": username,"reputation": current_reputation}})
-        await ctx.message.add_reaction("✅")
-        await self.log(
-            ctx,
-            f"{user.name}'s got thanked by {ctx.author.name}.",
-            '**Thanks Reputation**',
-            showauth=True
-        )
-    
-    @commands.command(name="myrep", aliases=['myreputation'])
-    async def myrep(self, ctx, userr: nextcord.Member=None):
-        """check reputation"""
-        await ctx.trigger_typing()
-        if not userr:
-            userr = ctx.author
-
-        collection = rsetup(ctx.guild.id)
-        user = userr.id
-        username = str(userr)
-        
-        current_reputation = 0
-
-        # user's data doesn't exist in db
-        if (does_not_exist(user, collection)):
-            post = {
-                '_id': user,
-                'name': username,
-                'reputation': 10
-            }
-            collection.insert_one(post)
-            current_reputation = 10
-        # user's data does exist in the db
-        else:
-            try:
-                current_reputation = reputation(user, collection)
-                collection.update_one({"_id":user}, {"$set":{"name": username}})
-            except:
-                return
-        message = f"{userr.name} has {current_reputation} reputation in this server."
-        embed = nextcord.Embed(title="Reputation", description=message, color=nextcord.Color.dark_theme())
-        await ctx.send(embed=embed)
-    
-    @commands.command(name="leaderboard", aliases=['top', 'reptop'])
-    async def leaderboard(self, ctx):
-        collection = rsetup(ctx.guild.id)
-        embed = nextcord.Embed(color=nextcord.Color.dark_theme())
-        holder = ""
-        sorted_users = collection.find().sort("reputation", pymongo.DESCENDING)
-        
-        holder += f"🥇 **{sorted_users[0]['reputation']}** - <@{sorted_users[0]['name']}>\n"
-        holder += f"🥈 **{sorted_users[1]['reputation']}** - <@{sorted_users[1]['name']}>\n"
-        holder += f"🥉 **{sorted_users[2]['reputation']}** - <@{sorted_users[2]['name']}>\n"
-        holder += f"🏅 **{sorted_users[3]['reputation']}** - <@{sorted_users[3]['name']}>\n"
-        holder += f"🏅 **{sorted_users[4]['reputation']}** - <@{sorted_users[4]['name']}>\n"
-
-        embed.add_field(name="Reputation Leaderboard", value=holder)
-        await ctx.send(embed=embed)
 
         
 def setup(bot):
