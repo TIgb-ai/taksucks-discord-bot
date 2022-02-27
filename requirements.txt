@@ -6,4 +6,4 @@ pathlib
 requests
 discordmongopy==0.3.0
 dnspython==2.1.0
-pymongo
+pymongo==3.12.2
