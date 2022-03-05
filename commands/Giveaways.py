@@ -184,13 +184,13 @@ class Giveaways(commands.Cog):
             color=self.color,
             description=f'» **{winners}** {"winner" if winners == 1 else "winners"}\n'
                         f'» Hosted by {ctx.author.mention}\n\n'
-                        f'» **React with <:me:939799024804966442> to get into the giveaway.**\n'
+                        f'» **React with <:swaghaiapna:928908517023289424> to get into the giveaway.**\n'
         )\
             .set_footer(icon_url=self.bot.user.avatar.url, text="Ends at")
 
         giveaway_embed.timestamp = datetime.datetime.utcnow() + datetime.timedelta(seconds=converted_time[0])
         giveaway_message = await channel.send(embed=giveaway_embed)
-        await giveaway_message.add_reaction("<:me:939799024804966442>")
+        await giveaway_message.add_reaction("<:swaghaiapna:928908517023289424>")
         now = int(time.time())
         giveaways = json.load(open("db/giveaways.json", "r"))
         data = {
